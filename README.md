@@ -6,6 +6,10 @@ Domotic projects
 - MQTT Broker
 
 ## Installation
-$ npm install
-$ bower install
-$ nodejs app.js
+```
+npm install
+bower install
+nodejs app.js
+```
+
+*Antoine de Chassey*
