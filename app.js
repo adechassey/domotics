@@ -66,6 +66,8 @@ mqttClient.on('message', function (topic, message) {
         method: 'POST',
         json: {
             "temperature": payloadToStore.temperature,
+            "humidity": payloadToStore.humidity,
+            "heatIndex": payloadToStore.heatIndex,
             "time": new Date()
         }
     };

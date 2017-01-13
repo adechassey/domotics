@@ -4,19 +4,39 @@
         <meta charset="utf-8" />
         <title>Home</title>
         <link rel="icon" type="image/png" href="/img/favicon.png" />
-        
+
         <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="/css/main.css">
     </head>
 
     <body>
-        <div class="jumbotron chart">
-            <div class="container text-center">
-                <h1>Weather</h1>
+        <div class="container">
 
-                <canvas id="weather"></canvas>
+            <h1>Weather</h1>
+            <blockquote class="blockquote">
+                <p class="lead">
+                    Real time temperature and humidity monitoring.
+                </p>
+            </blockquote>
+
+            <hr>
+
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">Temperature</h4>
+                    <canvas id="temperature"></canvas>
+                </div>
             </div>
+
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">Humidity</h4>
+                    <canvas id="humidity"></canvas>
+                </div>
+            </div>
+
         </div>
+
 
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>

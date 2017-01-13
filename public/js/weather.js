@@ -40,20 +40,25 @@ function onMessageArrived(message) {
     console.log(message.payloadString);
     var jsonPayload = JSON.parse(message.payloadString);
     temperature.push(jsonPayload.temperature);
+    humidity.push(jsonPayload.humidity);
+    heatIndex.push(jsonPayload.heatIndex);
     time.push(new Date().formatMMDDYYYY());
-/*    weatherChart.config.data.datasets[0].data = temperature;
-    weatherChart.config.data.labels = time;*/
-    weatherChart.update();
+
+    temperatureChart.update();
+    humidityChart.update();
 }
 
 
 /***************************
 *                          *
-*      WEATHER CHART       *
+*          CHART           *
 *                          *
 ***************************/
 
+// Variables
 var temperature = [];
+var humidity = [];
+var heatIndex = [];
 var time = [];
 var weatherChart;
 
@@ -62,20 +67,24 @@ Date.prototype.formatMMDDYYYY = function() {
     /* return (this.getMonth() + 1) +
         "/" +  this.getDate() +
         "/" +  this.getFullYear();*/
-    return this.getHours() +
+    return (this.getHours() + 7) +
         ":" +  this.getMinutes();
 }
 
 $.getJSON( "/weathers", function( data ) {
     $.each( data, function( key, val ) {
         temperature.push(val.temperature);
+        humidity.push(val.humidity);
+        heatIndex.push(val.heatIndex);
         time.push(new Date(val.time).formatMMDDYYYY());
     });
-    weatherChart.update();
+    temperatureChart.update();
+    humidityChart.update();
 });
 
-var weather_id = $("#weather");
-var data_weather = {
+// Temperature Chart
+var temperature_id = $("#temperature");
+var data_temperature = {
     labels: time,
     datasets: [{
         label: "Temperature",
@@ -83,17 +92,84 @@ var data_weather = {
         borderColor: "rgba(38, 185, 154, 0.7)",
         pointBorderColor: "rgba(38, 185, 154, 0.7)",
         pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
-        pointHoverBackgroundColor: "#4e5c96",
-        pointHoverBorderColor: "rgba(0, 0, 0, 0.72)",
-        pointHoverRadius: 6,
-        pointBorderWidth: 0.5,
+        pointHoverBackgroundColor: "#349155",
+        pointHoverBorderColor: "rgba(255, 255, 255, 0.5)",
+        pointHoverRadius: 8,
+        pointBorderWidth: 4,
         data: temperature
+    },{
+        label: "Heat Index",
+        backgroundColor: "rgba(185, 117, 38, 0.28)",
+        borderColor: "rgba(185, 111, 38, 0.7)",
+        pointBorderColor: "rgba(185, 140, 38, 0.7)",
+        pointBackgroundColor: "rgba(185, 117, 38, 0.7)",
+        pointHoverBackgroundColor: "#96514e",
+        pointHoverBorderColor: "rgba(255, 255, 255, 0.5)",
+        pointHoverRadius: 8,
+        pointBorderWidth: 4,
+        data: heatIndex
     }]
 };
 
-weatherChart = new Chart(weather_id, {
+temperatureChart = new Chart(temperature_id, {
     type: 'line',
-    data: data_weather,
+    data: data_temperature,
+    options: {
+        hover: {
+            mode: 'nearest'
+        },
+        scales: {
+            xAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Time'
+                }/*,
+                ticks: {
+                    maxTicksLimit: 10
+                }*/
+            }],
+            yAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Temperature (°C)'
+                }
+                /* ticks: {
+                    beginAtZero: true,
+                    steps: 10,
+                    stepValue: 5,
+                    min: 0,
+                    max: 40,
+                    maxTicksLimit: 5
+                }*/
+            }]
+        }
+    }
+});
+
+
+// Humidity Chart
+var humidity_id = $("#humidity");
+var data_humidity = {
+    labels: time,
+    datasets: [{
+        label: "Humidity",
+        backgroundColor: "rgba(38, 72, 185, 0.31)",
+        borderColor: "rgba(38, 55, 185, 0.7)",
+        pointBorderColor: "rgba(38, 49, 185, 0.7)",
+        pointBackgroundColor: "rgba(38, 100, 185, 0.7)",
+        pointHoverBackgroundColor: "#4e5c96",
+        pointHoverBorderColor: "rgba(255, 255, 255, 0.5)",
+        pointHoverRadius: 8,
+        pointBorderWidth: 4,
+        data: humidity
+    }]
+};
+
+humidityChart = new Chart(humidity_id, {
+    type: 'line',
+    data: data_humidity,
     options: {
         hover: {
             mode: 'label'
@@ -115,7 +191,7 @@ weatherChart = new Chart(weather_id, {
                 stacked: true,
                 scaleLabel: {
                     display: true,
-                    labelString: 'Temperature'
+                    labelString: 'Humidity (%)'
                 }
                 /* ticks: {
                     beginAtZero: true,
