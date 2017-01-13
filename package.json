@@ -1,0 +1,18 @@
+{
+  "name": "domotics",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "latest",
+    "mongodb": "latest",
+    "mqtt": "latest",
+    "request": "^2.79.0"
+  },
+  "description": "A node.js domotic website",
+  "devDependencies": {},
+  "author": "Antoine de Chassey",
+  "license": "ISC"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "domotics",
+  "description": "A node.js domotic website",
+  "main": "",
+  "authors": [
+    "Antoine de Chassey"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "chart.js": "^2.4.0",
+    "paho-mqtt": "*",
+    "bootstrap": "^3.3.7"
+  }
+}
