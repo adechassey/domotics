@@ -42,7 +42,12 @@ function onMessageArrived(message) {
     temperature.push(jsonPayload.temperature);
     humidity.push(jsonPayload.humidity);
     heatIndex.push(jsonPayload.heatIndex);
-    time.push(new Date().formatMMDDYYYY());
+    var now =  new Date();
+    time.push(now.getUTCDate() + 
+        "/" + (now.getUTCMonth() + 1) +
+        "/" +  now.getFullYear() + 
+        " - " + (now.getUTCHours() + 1) +
+        ":" +  now.getUTCMinutes());
 
     temperatureChart.update();
     humidityChart.update();
@@ -63,12 +68,15 @@ var time = [];
 var weatherChart;
 
 // Add a helper to format timestamp data
-Date.prototype.formatMMDDYYYY = function() {
+Date.prototype.formatHHMM = function() {
     /* return (this.getMonth() + 1) +
         "/" +  this.getDate() +
         "/" +  this.getFullYear();*/
-    return (this.getHours() + 7) +
-        ":" +  this.getMinutes();
+    return this.getUTCDate() + 
+        "/" + (this.getUTCMonth() + 1) +
+        "/" +  this.getFullYear() + 
+        " - " + (this.getUTCHours() + 1) +
+        ":" +  this.getUTCMinutes();
 }
 
 $.getJSON( "/weathers", function( data ) {
@@ -76,7 +84,7 @@ $.getJSON( "/weathers", function( data ) {
         temperature.push(val.temperature);
         humidity.push(val.humidity);
         heatIndex.push(val.heatIndex);
-        time.push(new Date(val.time).formatMMDDYYYY());
+        time.push(new Date(val.time).formatHHMM());
     });
     temperatureChart.update();
     humidityChart.update();
@@ -124,10 +132,10 @@ temperatureChart = new Chart(temperature_id, {
                 scaleLabel: {
                     display: true,
                     labelString: 'Time'
-                }/*,
+                },
                 ticks: {
-                    maxTicksLimit: 10
-                }*/
+                    maxTicksLimit: 20
+                }
             }],
             yAxes: [{
                 display: true,
@@ -181,10 +189,10 @@ humidityChart = new Chart(humidity_id, {
                 scaleLabel: {
                     display: true,
                     labelString: 'Time'
-                }/*,
+                },
                 ticks: {
-                    maxTicksLimit: 10
-                }*/
+                    maxTicksLimit: 20
+                }
             }],
             yAxes: [{
                 display: true,
@@ -192,15 +200,15 @@ humidityChart = new Chart(humidity_id, {
                 scaleLabel: {
                     display: true,
                     labelString: 'Humidity (%)'
-                }
-                /* ticks: {
+                },
+                ticks: {
                     beginAtZero: true,
                     steps: 10,
                     stepValue: 5,
                     min: 0,
-                    max: 40,
+                    max: 100,
                     maxTicksLimit: 5
-                }*/
+                }
             }]
         }
     }
