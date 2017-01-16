@@ -29,9 +29,14 @@ exports.findById = function(req, res) {
     });
 };
 
-exports.findAll = function(req, res) {
+exports.findAll = function(req, res) {    
     db.collection('weathers', function(err, collection) {
-        collection.find().toArray(function(err, items) {
+        var options = {
+            "limit": 60,
+            "sort": [['time', 'desc']]
+        }
+        collection.find({}, options).toArray(function(err, items) {
+            items.reverse();
             res.send(items);
         });
     });
